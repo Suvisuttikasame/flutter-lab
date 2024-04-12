@@ -3,8 +3,8 @@ import 'package:flutter_lab/pages/InheritedWidget/Myprovider/my_provider.dart';
 import 'package:flutter_lab/pages/InheritedWidget/components/widget1.dart';
 import 'package:flutter_lab/pages/InheritedWidget/components/widget2.dart';
 
-class DemoInheritedWidget extends StatelessWidget {
-  const DemoInheritedWidget({
+class DemoInheritedWidgetPage extends StatelessWidget {
+  const DemoInheritedWidgetPage({
     super.key,
   });
 

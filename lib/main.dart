@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lab/pages/InheritedWidget/Demo_inherited_page.dart';
+import 'package:flutter_lab/pages/CompareInheritedWidgett/Compare_inherited_page.dart';
+import 'package:flutter_lab/pages/InheritedWidget/demo_inherited_page.dart';
 import 'package:flutter_lab/pages/InheritedWidget/Myprovider/my_provider.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const DemoInheritedWidget(),
+        home: const CompareInheritedWidgetPage(),
       ),
     );
   }
