@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lab/pages/CompareInheritedWidgett/Compare_inherited_page.dart';
+import 'package:flutter_lab/pages/GridViewWidget/grid_view_page.dart';
 import 'package:flutter_lab/pages/InheritedWidget/demo_inherited_page.dart';
 import 'package:flutter_lab/pages/InheritedWidget/Myprovider/my_provider.dart';
 import 'package:flutter_lab/pages/LearnScaffold/learn_scaffold.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyListViewPage(),
+        home: const MyGridViewPage(),
       ),
     );
   }
