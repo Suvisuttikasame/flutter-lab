@@ -38,7 +38,15 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyGridViewPage(),
+        routes: {
+          'home-page': (context) => const LearnScaffold(),
+          'inherit-page': (context) => const DemoInheritedWidgetPage(),
+          'c-inherit-page': (context) => const CompareInheritedWidgetPage(),
+          'list-page': (context) => const MyListViewPage(),
+          'grid-page': (context) => const MyGridViewPage(),
+        },
+        initialRoute: 'home-page',
+        // home: const LearnScaffold(),
       ),
     );
   }
