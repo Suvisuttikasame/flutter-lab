@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LearnScaffold extends StatefulWidget {
   const LearnScaffold({super.key});
@@ -37,22 +38,60 @@ class _LearnScaffoldState extends State<LearnScaffold>
       ),
       drawer: Drawer(
         clipBehavior: Clip.antiAlias,
-        child: ListView(
-          children: const [
-            ListTile(
+        child: ListView(children: [
+          GestureDetector(
+            onTap: () {
+              if (ModalRoute.of(context)?.settings.name != 'home-page') {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('home-page');
+              }
+            },
+            child: const ListTile(
               leading: Icon(Icons.one_k),
-              title: Text('first'),
+              title: Text('home'),
             ),
-            ListTile(
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('inherit-page');
+            },
+            child: const ListTile(
               leading: Icon(Icons.two_k),
-              title: Text('second'),
+              title: Text('inherit widget'),
             ),
-            ListTile(
-              leading: Icon(Icons.three_k),
-              title: Text('third'),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('c-inherit-page');
+            },
+            child: const ListTile(
+              leading: Icon(Icons.two_k),
+              title: Text('compare inherit widget'),
             ),
-          ],
-        ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('list-page');
+            },
+            child: const ListTile(
+              leading: Icon(Icons.two_k),
+              title: Text('list view'),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('grid-page');
+            },
+            child: const ListTile(
+              leading: Icon(Icons.two_k),
+              title: Text('grid view'),
+            ),
+          ),
+        ]),
       ),
       drawerEnableOpenDragGesture: false,
       body: TabBarView(
