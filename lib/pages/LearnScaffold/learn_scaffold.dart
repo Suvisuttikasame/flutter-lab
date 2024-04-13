@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LearnScaffold extends StatefulWidget {
   const LearnScaffold({super.key});
@@ -72,6 +71,22 @@ class _LearnScaffoldState extends State<LearnScaffold>
           ),
           const Center(child: Text('grade')),
         ],
+      ),
+      floatingActionButton: IconButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.pressed)) {
+            return Colors.blue;
+          } else if (states.contains(MaterialState.hovered)) {
+            return Colors.lightBlue;
+          } else {
+            return Colors.amberAccent;
+          }
+        })),
+        padding: const EdgeInsets.all(8),
+        color: Colors.amber,
+        onPressed: () {},
+        icon: const Icon(Icons.plus_one),
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _navigationIndex,
