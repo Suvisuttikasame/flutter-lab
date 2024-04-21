@@ -5,6 +5,7 @@ import 'package:flutter_lab/pages/InheritedWidget/demo_inherited_page.dart';
 import 'package:flutter_lab/pages/InheritedWidget/Myprovider/my_provider.dart';
 import 'package:flutter_lab/pages/LearnScaffold/learn_scaffold.dart';
 import 'package:flutter_lab/pages/ListViewWidget/list_view_page.dart';
+import 'package:flutter_lab/pages/StyleUIPractice/style_widget_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyProvider(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.
@@ -45,8 +47,8 @@ class MyApp extends StatelessWidget {
           'list-page': (context) => const MyListViewPage(),
           'grid-page': (context) => const MyGridViewPage(),
         },
-        initialRoute: 'home-page',
-        // home: const LearnScaffold(),
+        // initialRoute: 'home-page',
+        home: const MyStyleWidget(),
       ),
     );
   }
