@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expense_traker/widgets/expense_list/expenses_list.dart';
 import 'package:expense_traker/model/expense.dart';
 import 'package:expense_traker/widgets/new_expenses.dart';
@@ -35,7 +37,16 @@ class _ExpensesState extends State<Expenses> {
 
   void _overlayAndDisplayModal() {
     showModalBottomSheet(
-        context: context, builder: (modalContext) => const NewExpenses());
+        context: context,
+        builder: (modalContext) => NewExpenses(
+              addNewExpense: _addNewExpense,
+            ));
+  }
+
+  void _addNewExpense(Expense expense) {
+    setState(() {
+      _registeredExpense.add(expense);
+    });
   }
 
   @override
