@@ -1,8 +1,13 @@
 import 'package:expense_traker/widgets/expenses.dart';
 import 'package:flutter/material.dart';
 
-final kColorScheme =
-    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 179, 151, 227));
+final kColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 179, 151, 227),
+);
+final kDarkColorScheme = ColorScheme.fromSeed(
+  brightness: Brightness.dark,
+  seedColor: const Color.fromARGB(255, 68, 75, 135),
+);
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +21,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
+        darkTheme: ThemeData.dark().copyWith(
+          colorScheme: kDarkColorScheme,
+          cardTheme: const CardTheme().copyWith(
+            color: kDarkColorScheme.secondaryContainer,
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: kDarkColorScheme.primaryContainer),
+          ),
+        ),
         theme: ThemeData(
                 // This is the theme of your application.
                 //
@@ -67,6 +83,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        themeMode: ThemeMode.dark,
         home: const Expenses());
   }
 }
