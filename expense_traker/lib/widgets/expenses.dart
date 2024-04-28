@@ -4,7 +4,6 @@ import 'package:expense_traker/widgets/expense_list/expenses_list.dart';
 import 'package:expense_traker/model/expense.dart';
 import 'package:expense_traker/widgets/new_expenses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -37,6 +36,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _overlayAndDisplayModal() {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (modalContext) => NewExpenses(
               addNewExpense: _addNewExpense,
@@ -46,6 +46,12 @@ class _ExpensesState extends State<Expenses> {
   void _addNewExpense(Expense expense) {
     setState(() {
       _registeredExpense.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpense.remove(expense);
     });
   }
 
@@ -62,7 +68,11 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text('The chart'),
-          Expanded(child: ExpensesList(expenses: _registeredExpense)),
+          Expanded(
+              child: ExpensesList(
+            expenses: _registeredExpense,
+            removeExpense: _removeExpense,
+          )),
         ],
       ),
     );

@@ -50,11 +50,14 @@ class _NewExpensesState extends State<NewExpenses> {
             );
           });
     }
-    widget.addNewExpense(Expense(
-        title: _titleController.text,
-        amount: enterAmount!,
-        date: _selectedDate!,
-        category: _selectedCategory));
+    widget.addNewExpense(
+      Expense(
+          title: _titleController.text,
+          amount: enterAmount!,
+          date: _selectedDate!,
+          category: _selectedCategory),
+    );
+    Navigator.pop(context);
   }
 
   @override
@@ -67,7 +70,7 @@ class _NewExpensesState extends State<NewExpenses> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
