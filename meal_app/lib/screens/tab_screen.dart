@@ -18,21 +18,12 @@ class TabScreen extends ConsumerStatefulWidget {
 
 class _TabScreenState extends ConsumerState<TabScreen> {
   int activeIndex = 0;
-
-  List<Meal> meals = [];
   final List<String> activeTitle = ['Categories', 'Favorite'];
 
   void _selectTab(int index) {
     setState(() {
       activeIndex = index;
     });
-  }
-
-  void _setSnackbar(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
   }
 
   void _setScreen(String identifier) {
@@ -45,28 +36,9 @@ class _TabScreenState extends ConsumerState<TabScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    meals = ref.read(mealsProvider);
-  }
-
-  @override
   Widget build(BuildContext context) {
     List<Meal> favoriteMeals = ref.watch(favoriteMealProvider);
-    Map<FilterSet, bool> selectedFilter = ref.watch(filterProvider);
-    List<Meal> avialableMeals = meals.where((meal) {
-      if (selectedFilter[FilterSet.something0]! && !meal.isGlutenFree) {
-        return false;
-      } else if (selectedFilter[FilterSet.something1]! && !meal.isLactoseFree) {
-        return false;
-      } else if (selectedFilter[FilterSet.something2]! && !meal.isVegan) {
-        return false;
-      } else if (selectedFilter[FilterSet.something3]! && !meal.isVegetarian) {
-        return false;
-      }
-      return true;
-    }).toList();
-
+    List<Meal> avialableMeals = ref.watch(avialableMealProvider);
     final List<Widget> activePage = [
       CategoriesScreen(
         avialableMeals: avialableMeals,
