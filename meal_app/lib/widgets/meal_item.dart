@@ -8,10 +8,8 @@ class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
     required this.meal,
-    required this.toggleFavorite,
   });
   final Meal meal;
-  final void Function(Meal meal) toggleFavorite;
 
   String get complexityToText {
     return meal.complexity.name[0].toUpperCase() +
@@ -27,7 +25,6 @@ class MealItem extends StatelessWidget {
       MaterialPageRoute(
           builder: (ctx) => MealDetailScreen(
                 meal: meal,
-                toggleFavorite: toggleFavorite,
               )),
     );
   }

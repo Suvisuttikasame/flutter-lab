@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meal_app/model/meal.dart';
+import 'package:meal_app/providers/favorite_meal_provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/filter_screen.dart';
@@ -22,7 +23,7 @@ class _TabScreenState extends ConsumerState<TabScreen> {
     FilterSet.something2: false,
     FilterSet.something3: false,
   };
-  final List<Meal> favoriteMeals = [];
+
   List<Meal> avialableMeals = [];
   List<Meal> meals = [];
   final List<String> activeTitle = ['Categories', 'Favorite'];
@@ -38,22 +39,6 @@ class _TabScreenState extends ConsumerState<TabScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
-  }
-
-  void _toggleFavorite(Meal meal) {
-    final existFavorite = favoriteMeals.contains(meal);
-
-    if (existFavorite) {
-      setState(() {
-        favoriteMeals.remove(meal);
-        _setSnackbar('successfully unfavor meal');
-      });
-    } else {
-      setState(() {
-        favoriteMeals.add(meal);
-        _setSnackbar('successfully favor meal');
-      });
-    }
   }
 
   void _setScreen(String identifier) async {
@@ -93,14 +78,13 @@ class _TabScreenState extends ConsumerState<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Meal> favoriteMeals = ref.watch(favoriteMealProvider);
     final List<Widget> activePage = [
       CategoriesScreen(
-        toggleFavorite: _toggleFavorite,
         avialableMeals: avialableMeals,
       ),
       MealScreen(
         meals: favoriteMeals,
-        toggleFavorite: _toggleFavorite,
       )
     ];
 
