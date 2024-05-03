@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:meal_app/model/meal.dart';
 import 'package:meal_app/screens/meal_detail_screen.dart';
 import 'package:meal_app/widgets/meal_item_trait.dart';
@@ -41,14 +42,17 @@ class MealItem extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: Stack(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(
-                meal.imageUrl,
+            Hero(
+              tag: meal.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(
+                  meal.imageUrl,
+                ),
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
               ),
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
             ),
             Positioned(
               bottom: 0,
