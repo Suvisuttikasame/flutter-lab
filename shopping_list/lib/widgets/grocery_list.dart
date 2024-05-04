@@ -18,44 +18,53 @@ class GroceryList extends StatefulWidget {
 class _GroceryListState extends State<GroceryList> {
   List<GroceryItem> items = [];
   bool _isloading = true;
+  String _error = '';
 
   void _fetchItem() async {
-    final url = Uri.https(
-      dotenv.env['FIREASE_HOST']!,
-      'shopping_list.json',
-    );
-    final res = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
-    if (res.body == 'null') {
+    try {
+      final url = Uri.https(
+        dotenv.env['FIREASE_HOST']!,
+        'shopping_list.json',
+      );
+      final res = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      if (res.body == 'null') {
+        setState(() {
+          _isloading = false;
+        });
+        return;
+      }
+      final Map<String, dynamic> itemList = jsonDecode(res.body);
+      final List<GroceryItem> tempItems = [];
+
+      for (final item in itemList.entries) {
+        final category = categories.entries
+            .firstWhere((cat) => cat.value.label == item.value['category'])
+            .value;
+        tempItems.add(
+          GroceryItem(
+            id: item.key,
+            name: item.value['name'],
+            quantity: item.value['quantity'],
+            category: category,
+          ),
+        );
+      }
+      setState(() {
+        items = tempItems;
+        _isloading = false;
+        _error = '';
+      });
+    } catch (e) {
       setState(() {
         _isloading = false;
+        _error = e.toString();
       });
-      return;
     }
-    final Map<String, dynamic> itemList = jsonDecode(res.body);
-    final List<GroceryItem> tempItems = [];
-
-    for (final item in itemList.entries) {
-      final category = categories.entries
-          .firstWhere((cat) => cat.value.label == item.value['category'])
-          .value;
-      tempItems.add(
-        GroceryItem(
-          id: item.key,
-          name: item.value['name'],
-          quantity: item.value['quantity'],
-          category: category,
-        ),
-      );
-    }
-    setState(() {
-      items = tempItems;
-      _isloading = false;
-    });
   }
 
   void _addItem() async {
@@ -71,14 +80,18 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   void _deleteItem(item, index) async {
-    setState(() {
-      items.removeAt(index);
-    });
-    final url = Uri.https(
-      dotenv.env['FIREASE_HOST']!,
-      'shopping_list/${item.id}.json',
-    );
-    final res = await http.delete(url);
+    try {
+      setState(() {
+        items.removeAt(index);
+      });
+      final url = Uri.https(
+        dotenv.env['FIREASE_HOST']!,
+        'shopping_list/${item.id}.json',
+      );
+      http.delete(url);
+    } catch (e) {
+      items.insert(index, item);
+    }
   }
 
   @override
@@ -123,6 +136,12 @@ class _GroceryListState extends State<GroceryList> {
           height: 30,
           child: CircularProgressIndicator(),
         ),
+      );
+    }
+
+    if (_error != '') {
+      content = Center(
+        child: Text(_error),
       );
     }
     return Scaffold(
