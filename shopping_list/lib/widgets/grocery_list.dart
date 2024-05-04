@@ -64,6 +64,17 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
+  void _deleteItem(item, index) async {
+    setState(() {
+      items.removeAt(index);
+    });
+    final url = Uri.https(
+      dotenv.env['FIREASE_HOST']!,
+      'shopping_list/${item.id}.json',
+    );
+    final res = await http.delete(url);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,9 +88,7 @@ class _GroceryListState extends State<GroceryList> {
       itemBuilder: (context, index) => Dismissible(
         key: ValueKey(items[index].id),
         onDismissed: (direction) {
-          setState(() {
-            items.removeAt(index);
-          });
+          _deleteItem(items[index], index);
         },
         child: ListTile(
           leading: Container(
