@@ -27,19 +27,16 @@ class _GroceryListState extends State<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping list'),
-        actions: [
-          IconButton(
-            onPressed: _addItem,
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) => ListTile(
+    Widget content = ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) => Dismissible(
+        key: ValueKey(items[index].id),
+        onDismissed: (direction) {
+          setState(() {
+            items.removeAt(index);
+          });
+        },
+        child: ListTile(
           leading: Container(
             width: 24,
             height: 24,
@@ -51,6 +48,24 @@ class _GroceryListState extends State<GroceryList> {
           ),
         ),
       ),
+    );
+
+    if (items.isEmpty) {
+      content = const Center(
+        child: Text('No item\'s selected'),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Shopping list'),
+        actions: [
+          IconButton(
+            onPressed: _addItem,
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: content,
     );
   }
 }
