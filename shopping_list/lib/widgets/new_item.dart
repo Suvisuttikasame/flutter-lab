@@ -19,10 +19,12 @@ class _NewItemState extends State<NewItem> {
   String _title = '';
   int _quantity = 1;
   Category _category = categories[Categories.vegetables]!;
+  bool _isSending = false;
 
   void _saveItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      _isSending = true;
       final url = Uri.https(
         dotenv.env['FIREASE_HOST']!,
         'shopping_list.json',
@@ -147,17 +149,25 @@ class _NewItemState extends State<NewItem> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      _formKey.currentState!.reset();
-                    },
+                    onPressed: _isSending
+                        ? null
+                        : () {
+                            _formKey.currentState!.reset();
+                          },
                     child: const Text('reset'),
                   ),
                   const SizedBox(
                     width: 6,
                   ),
                   ElevatedButton(
-                    onPressed: _saveItem,
-                    child: const Text('Add Item'),
+                    onPressed: _isSending ? null : _saveItem,
+                    child: _isSending
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text('Add Item'),
                   )
                 ],
               )

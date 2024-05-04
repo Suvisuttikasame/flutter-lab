@@ -17,6 +17,7 @@ class GroceryList extends StatefulWidget {
 
 class _GroceryListState extends State<GroceryList> {
   List<GroceryItem> items = [];
+  bool _isloading = true;
 
   void _fetchItem() async {
     final url = Uri.https(
@@ -47,6 +48,7 @@ class _GroceryListState extends State<GroceryList> {
     }
     setState(() {
       items = tempItems;
+      _isloading = false;
     });
   }
 
@@ -96,6 +98,18 @@ class _GroceryListState extends State<GroceryList> {
     if (items.isEmpty) {
       content = const Center(
         child: Text('No item\'s selected'),
+      );
+    }
+
+    if (_isloading) {
+      return const Center(
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(
+            value: 0.3,
+          ),
+        ),
       );
     }
     return Scaffold(
