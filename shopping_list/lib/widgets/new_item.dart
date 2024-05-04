@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/category.dart';
 import 'package:shopping_list/models/grocery_item.dart';
+import 'package:http/http.dart' as http;
 
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
@@ -15,6 +19,42 @@ class _NewItemState extends State<NewItem> {
   String _title = '';
   int _quantity = 1;
   Category _category = categories[Categories.vegetables]!;
+
+  void _saveItem() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final url = Uri.https(
+        dotenv.env['FIREASE_HOST']!,
+        'shopping_list.json',
+      );
+      final res = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+          {
+            'name': _title,
+            'quantity': _quantity,
+            'category': _category.label,
+          },
+        ),
+      );
+      if (!context.mounted) {
+        return;
+      }
+      final Map<String, dynamic> mapRes = jsonDecode(res.body);
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop(
+        GroceryItem(
+          id: mapRes['name'],
+          name: _title,
+          quantity: _quantity,
+          category: _category,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,18 +156,9 @@ class _NewItemState extends State<NewItem> {
                     width: 6,
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          final newItem = GroceryItem(
-                              id: DateTime.now().toString(),
-                              name: _title,
-                              quantity: _quantity,
-                              category: _category);
-                          Navigator.of(context).pop(newItem);
-                        }
-                      },
-                      child: const Text('Add Item'))
+                    onPressed: _saveItem,
+                    child: const Text('Add Item'),
+                  )
                 ],
               )
             ],
