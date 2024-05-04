@@ -30,6 +30,12 @@ class _GroceryListState extends State<GroceryList> {
         'Content-Type': 'application/json',
       },
     );
+    if (res.body == 'null') {
+      setState(() {
+        _isloading = false;
+      });
+      return;
+    }
     final Map<String, dynamic> itemList = jsonDecode(res.body);
     final List<GroceryItem> tempItems = [];
 
@@ -115,9 +121,7 @@ class _GroceryListState extends State<GroceryList> {
         child: SizedBox(
           width: 30,
           height: 30,
-          child: CircularProgressIndicator(
-            value: 0.3,
-          ),
+          child: CircularProgressIndicator(),
         ),
       );
     }
